@@ -1,4 +1,4 @@
-import sql from "../database/db";
+import conn from "../database/db.js";
 
 const controller = {};
 
@@ -15,12 +15,15 @@ controller.processLogin = async function (req, res) {
   try {
     // Usando concatenação de valores em SQL de forma insegura para reproduzir SQL Injection
 
-    const result = await sql([
-      `SELECT * FROM users WHERE username = '${req.body.username}'
-      AND password = '${req.body.password}'`,
-    ]);
+    const sql = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`
 
-    if (result) res.render("sql-injection/success", { title: "Autenticado" });
+      console.log('-'.repeat(80));
+      console.log(sql);
+      console.log('-'.repeat(80));
+
+    const result = await conn.query(sql)
+
+    if (result.rowCount > 0) res.render("sql-injection/success", { title: "Autenticado" });
     else
       res.render("sql-injection/login", {
         title: "Autentique-se",
