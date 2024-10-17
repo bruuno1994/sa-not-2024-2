@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express-sanitizer": "^1.0.6",
+    "prisma": "^5.21.1"
+  }
+}
